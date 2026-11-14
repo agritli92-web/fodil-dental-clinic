@@ -780,6 +780,9 @@ function status(){
 }
 
 setLang(lang);setCase(0);
+/* always open at the top unless the link has a section hash */
+try{history.scrollRestoration='manual'}catch(e){}
+if(!location.hash){window.scrollTo(0,0);window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)})}
 </script>
 </body>
 </html>
