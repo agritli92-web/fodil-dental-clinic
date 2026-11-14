@@ -782,7 +782,14 @@ function status(){
 setLang(lang);setCase(0);
 /* always open at the top unless the link has a section hash */
 try{history.scrollRestoration='manual'}catch(e){}
-if(!location.hash){window.scrollTo(0,0);window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)})}
+if(!location.hash){
+  var moved=false,t0=Date.now();
+  ['touchstart','wheel','keydown','mousedown'].forEach(function(ev){addEventListener(ev,function(){moved=true},{passive:true,once:true})});
+  var top0=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
+  top0();
+  addEventListener('load',top0);
+  addEventListener('scroll',function(){if(!moved&&Date.now()-t0<6000&&window.scrollY>0)top0()},{passive:true});
+}
 </script>
 </body>
 </html>
